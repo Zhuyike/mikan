@@ -3,8 +3,9 @@
 
 import ConfigParser
 import os
-import logging
+import time
 import route
+import logging
 import argparse
 import tornado.httpserver
 import tornado.ioloop
@@ -52,7 +53,7 @@ def db_instance():
     dbs['user'] = mongo_client['user']
     dbs['item'] = mongo_client['item']
     dbs['record'] = mongo_client['record']
-    logging.info('connect to mongodb!')
+    logging.info('Mikan: connect to mongodb!')
     return dbs
 
 
@@ -61,21 +62,25 @@ class RunMikan(Application):
         self.db = db_instance()
         self.redis = ''
         app_settings = {
-            'mongodb': self.db,
+            'db': self.db,
             'redis': self.redis,
         }
-        super(RunMikan, self).__init__(handler=route.route_list, **app_settings)
+        super(RunMikan, self).__init__(handlers=route.route_list, **app_settings)
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG,
+                        format='[%(levelname)1.1s %(asctime)s %(module)s:%(lineno)d] %(message)s',
+                        datefmt='%y%m%d %H:%M:%S')
+    logging.info("Mikan: Hello")
     argp = argparse.ArgumentParser()
     argp.add_argument('--debug', default=1, type=int)
     argp.add_argument('--port', default=8134, type=int)
     args = argp.parse_args()
     load_config('./server.conf')
     config_update('port', args.port)
-    tornado.options.parse_command_line()
     app = RunMikan(args)
     http_server = tornado.httpserver.HTTPServer(app)
     http_server.listen(args.port)
+    logging.info("Mikan: start service at " + time.ctime() + "\n")
     tornado.ioloop.IOLoop.instance().start()
