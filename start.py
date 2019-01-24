@@ -64,8 +64,12 @@ class RunMikan(Application):
         app_settings = {
             'db': self.db,
             'redis': self.redis,
+            'debug': True,
         }
-        super(RunMikan, self).__init__(handlers=route.route_list, **app_settings)
+        super(RunMikan, self).__init__(handlers=route.route_list,
+                                       template_path=os.path.join(os.path.dirname(__file__), "templates"),
+                                       static_path=os.path.join(os.path.dirname(__file__), "static"),
+                                       **app_settings)
 
 
 if __name__ == "__main__":

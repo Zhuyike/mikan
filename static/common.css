@@ -1,0 +1,51 @@
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+body {
+    margin: 0;
+}
+p{
+    margin: 0;
+}
+h1{
+    margin: 0;
+    height: 50px;
+    text-align:center;
+    line-height:50px;
+}
+div.up{
+    height: 50px;
+    background-color: lightskyblue;
+    display: block;
+}
+div.content{
+    height: 500px;
+    background-color: aliceblue;
+    display: block;
+}
+div.down{
+    height: 50px;
+    background-color: lightskyblue;
+    display: block;
+}
+form{
+    margin: 0;
+}
+div.login{
+    margin: 0 auto;
+    max-width: 185px;
+    padding-top: 30px;
+}
+input.input_login{
+    position: relative;
+    top: auto;
+    left: auto;
+    margin: 5px auto;
+    max-width: 60px;
+}
+p.p_login{
+    text-align:center;
+    vertical-align: middle;
+}

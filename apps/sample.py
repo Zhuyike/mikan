@@ -8,7 +8,9 @@ import traceback
 
 class BaseHandler(RequestHandler):
     def prepare(self):
-        self.db = self.settings['db']
+        self.user_db = self.settings['db']['user']
+        self.item_db = self.settings['db']['item']
+        self.record_db = self.settings['db']['record']
         self.redis = self.settings['redis']
 
     def write_error_response(self, wrong_message):
@@ -16,6 +18,17 @@ class BaseHandler(RequestHandler):
         super(BaseHandler, self).write(resp)
 
     def json_write(self, resp):
+        if isinstance(resp, dict):
+            resp['status'] = 0
+            resp['message'] = 'success'
+            super(BaseHandler, self).write(resp)
+        else:
+            self.write_error_response(resp)
+
+    def write_error(self, status_code, **kwargs):
+        self.write(u"Mikan: 阿喏，一个{}错误哦".format(status_code))
+
+    def wrap_write(self, resp):
         if isinstance(resp, dict):
             resp['status'] = 0
             resp['message'] = 'success'
