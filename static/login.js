@@ -6,12 +6,12 @@ $(function () {
    $('.input_login').on('click', function () {
        var pwd = $('.pwd_login__').val();
        var username = $('.username_login').val();
+       var next_ = $('.next_login__').val();
        var user = {
            'username': username,
            'password__': pwd
        };
        user = JSON.stringify(user);
-       console.log(user);
        $.ajax('/api/login', {
            'method': 'POST',
            'contentType': 'application/json',
@@ -21,7 +21,7 @@ $(function () {
            console.log(data);
            if (data['login'] === 'success'){
                if (confirm('登录成功，点击确定后跳转')){
-                   window.location = '/main';
+                   window.location = next_;
                }
            }else{
                alert('登录失败，失败信息：' + data['msg']);

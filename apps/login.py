@@ -3,21 +3,17 @@
 
 from sample import BaseHandler
 from requests import HTTPError
+from worker.tool_common import get_md5
 from model import user as user_db
-import hashlib
+from bson import ObjectId
 import json
 salt = 'mikan_salt'
 
 
-def get_md5(string):
-    md5 = hashlib.md5()
-    md5.update(string)
-    return md5.hexdigest()
-
-
 class LoginHandler(BaseHandler):
     def get(self):
-        self.render('login.html')
+        next_ = self.get_argument('next', '/main')
+        self.render('login.html', next_=next_)
 
 
 class ApiLoginHandler(BaseHandler):
@@ -29,6 +25,14 @@ class ApiLoginHandler(BaseHandler):
         if user:
             password = get_md5(password + salt)
             if user['pwd'] == password:
+                ip = self.request.remote_ip
+                agent = self.request.headers['User-Agent']
+                redis_pipe = self.redis.pipeline(transaction=True)
+                session_key = str(ObjectId())
+                self.redis.set('{}:{}'.format(ip, agent), session_key, ex=self.settings['login_ttl'])
+                self.redis.set(session_key, str(user['_id']), ex=self.settings['login_ttl'])
+                self.redis.set(str(user['_id']), session_key, ex=self.settings['login_ttl'])
+                redis_pipe.execute()
                 self.write({'login': 'success', 'msg': ''})
             else:
                 self.write({'login': 'failed', 'msg': 'failed wrong password'})

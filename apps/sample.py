@@ -12,6 +12,20 @@ class BaseHandler(RequestHandler):
         self.item_db = self.settings['db']['item']
         self.record_db = self.settings['db']['record']
         self.redis = self.settings['redis']
+        self.allow_plural_login = self.settings['allow_plural_login']
+
+    def get_current_user(self):
+        ip = self.request.remote_ip
+        agent = self.request.headers['User-Agent']
+        session_key = self.redis.get('{}:{}'.format(ip, agent))
+        if session_key:
+            username = self.redis.get(session_key)
+            if not self.allow_plural_login:
+                if self.redis.get(username) != session_key:
+                    username = None
+            return username
+        else:
+            return None
 
     def write_error_response(self, wrong_message):
         resp = {'status': -1, 'wrong_message': wrong_message, 'message': u'内部调用错误，请稍后重试'}

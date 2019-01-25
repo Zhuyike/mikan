@@ -5,13 +5,13 @@ import ConfigParser
 import os
 import time
 import route
+import redis
 import logging
 import argparse
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
 import tornado.web
-from apps import sample
 from pymongo import MongoClient
 from tornado.web import Application
 
@@ -59,16 +59,22 @@ def db_instance():
 
 class RunMikan(Application):
     def __init__(self, args):
+        pool = redis.ConnectionPool(host=config_get('redis_host'),
+                                    port=config_get('redis_port'),
+                                    password=config_get('redis_password'))
         self.db = db_instance()
-        self.redis = ''
+        self.redis = redis.Redis(connection_pool=pool)
         app_settings = {
             'db': self.db,
             'redis': self.redis,
-            'debug': True,
+            'debug': True if str(config_get('debug')) == '1' else False,
+            'allow_plural_login': True if str(config_get('allow_plural_login')) == '1' else False,
+            'login_ttl': int(config_get('login_ttl'))
         }
         super(RunMikan, self).__init__(handlers=route.route_list,
                                        template_path=os.path.join(os.path.dirname(__file__), "templates"),
                                        static_path=os.path.join(os.path.dirname(__file__), "static"),
+                                       login_url='/login',
                                        **app_settings)
 
 
@@ -84,7 +90,7 @@ if __name__ == "__main__":
     load_config('./server.conf')
     config_update('port', args.port)
     app = RunMikan(args)
-    http_server = tornado.httpserver.HTTPServer(app)
+    http_server = tornado.httpserver.HTTPServer(app, xheaders=True)
     http_server.listen(args.port)
     logging.info("Mikan: start service at " + time.ctime() + "\n")
     tornado.ioloop.IOLoop.instance().start()
