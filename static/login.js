@@ -1,17 +1,14 @@
 $(function () {
-   $('.pwd_login').on('change', function () {
-       var pwd = $(this).val();
-       $('.pwd_login__').val($.md5(pwd));
-   });
    $('.input_login').on('click', function () {
-       var pwd = $('.pwd_login__').val();
+       var pwd = $('.pwd_login').val();
        var username = $('.username_login').val();
-       var next_ = $('.next_login__').val();
+       var next_ = $('#next__').val();
        var user = {
            'username': username,
-           'password__': pwd
+           'password__': $.md5(pwd)
        };
        user = JSON.stringify(user);
+       console.log(user);
        $.ajax('/api/login', {
            'method': 'POST',
            'contentType': 'application/json',
@@ -20,7 +17,7 @@ $(function () {
        }).done(function (data) {
            console.log(data);
            if (data['login'] === 'success'){
-               if (confirm('登录成功，点击确定后跳转')){
+               if (confirm(data['msg'] + '\n登录成功，点击确定后跳转')){
                    window.location = next_;
                }
            }else{

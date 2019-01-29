@@ -12,6 +12,4 @@ import json
 class MainHandler(BaseHandler):
     @authenticated
     def get(self):
-        print self.request.remote_ip
-        print self.request.headers['User-Agent']
-        self.write('xxx')
+        self.render('main.html')

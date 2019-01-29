@@ -1,13 +1,5 @@
-* {
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-}
 body {
-    margin: 0;
-}
-p{
-    margin: 0;
+    background-color: aliceblue;
 }
 h1{
     margin: 0;
@@ -15,23 +7,9 @@ h1{
     text-align:center;
     line-height:50px;
 }
-div.up{
-    height: 50px;
-    background-color: lightskyblue;
-    display: block;
-}
 div.content{
     height: 500px;
-    background-color: aliceblue;
     display: block;
-}
-div.down{
-    height: 50px;
-    background-color: lightskyblue;
-    display: block;
-}
-form{
-    margin: 0;
 }
 div.login{
     margin: 0 auto;

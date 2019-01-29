@@ -33,7 +33,7 @@ class ApiLoginHandler(BaseHandler):
                 self.redis.set(session_key, str(user['_id']), ex=self.settings['login_ttl'])
                 self.redis.set(str(user['_id']), session_key, ex=self.settings['login_ttl'])
                 redis_pipe.execute()
-                self.write({'login': 'success', 'msg': ''})
+                self.write({'login': 'success', 'msg': u'欢迎回来：{}'.format(user['name'])})
             else:
                 self.write({'login': 'failed', 'msg': 'failed wrong password'})
         else:
