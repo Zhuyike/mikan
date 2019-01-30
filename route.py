@@ -10,4 +10,5 @@ route_list = [
     (r'/main', main.MainHandler),
 
     (r'/api/login', login.ApiLoginHandler),
+    (r'/api/uploadfile', main.UpLoadHandler)
 ]

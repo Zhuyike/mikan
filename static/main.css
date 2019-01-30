@@ -75,9 +75,12 @@
       .sidebar-menu .treeview-menu > li.active > a, .sidebar-menu .treeview-menu > li > a:hover {
         color: #fff; }
 .kubernetes {
-  text-align:center;
+  /*text-align:center;*/
   margin:50px 0 0 230px;
   font:normal 14px/24px 'MicroSoft YaHei';
+}
+.docker h1, .docker .content{
+  margin: 0 0 0 7%;
 }
 .docker {
   display: none;

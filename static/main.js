@@ -27,7 +27,6 @@ $.sidebarMenu = function(menu) {
       ul.removeClass('menu-open');
       //Get the parent li
       var parent_li = $this.parent("li");
-
       //Open the target menu and add the menu-open class
       checkElement.slideDown(animationSpeed, function() {
         //Add the class active to the parent li
@@ -36,9 +35,34 @@ $.sidebarMenu = function(menu) {
         parent_li.addClass('active');
       });
     }
-    //if this isn't a link, prevent the page from being redirected
-    // if (checkElement.is('.treeview-menu')) {
-    //   e.preventDefault();
-    // }
   });
 };
+$('#input-file-btn').on('click', function () {
+    var fileObj = $(".img-input")[0].files[0];
+    var form = new FormData();
+    form.append("k1", "v1");
+    form.append("fff", fileObj);
+    $.ajax('/api/uploadfile', {
+        'method': 'POST',
+        'contentType': false,
+        'data': form,
+        'processData': false
+    }).done(function (data) {
+        alert(data)
+    });
+});
+//add-book
+// $(function () {
+//
+//         // $.ajax({
+//         //     type:'POST',
+//         //     url: '/api/uploadfile',
+//         //     data: form,
+//         //     processData: false,  // tell jQuery not to process the data
+//         //     contentType: false,  // tell jQuery not to set contentType
+//         //     success: function (data) {
+//         //         alert(data)
+//         //     }
+//         // }).done()
+//     // });
+// })();
