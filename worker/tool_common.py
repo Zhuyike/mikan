@@ -18,5 +18,8 @@ def authenticated_api(method):
         if not self.current_user:
             self.json_write({'success': 0, 'msg': '登录信息已失效'})
             return
+        if self.role != 'admin':
+            self.json_write({'success': 0, 'msg': '该账户无此权限'})
+            return
         return method(self, *args, **kwargs)
     return wrapper

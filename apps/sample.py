@@ -2,6 +2,7 @@
 # encoding: utf-8
 
 from tornado.web import RequestHandler
+from model import user as user_db
 import logging
 import traceback
 
@@ -13,6 +14,7 @@ class BaseHandler(RequestHandler):
         self.record_db = self.settings['db']['record']
         self.redis = self.settings['redis']
         self.allow_plural_login = self.settings['allow_plural_login']
+        self.role = ''
 
     def get_current_user(self):
         ip = self.request.remote_ip
@@ -23,6 +25,11 @@ class BaseHandler(RequestHandler):
             if not self.allow_plural_login:
                 if self.redis.get(username) != session_key:
                     username = None
+            user_data = user_db.fetch_user_by_id(self.user_db, username)
+            if user_data:
+                self.role = user_data['role']
+            else:
+                self.role = ''
             return username
         else:
             return None

@@ -16,7 +16,12 @@ import json
 class MainHandler(BaseHandler):
     @authenticated
     def get(self):
-        self.render('main.html', default_img_src=self.settings['default_file'])
+        if self.role == '':
+            self.get_current_user()
+        if self.role == 'admin':
+            self.render('main.html', default_img_src=self.settings['default_file'])
+        else:
+            self.render('main_user.html')
 
 
 class UpLoadHandler(BaseHandler):
@@ -88,3 +93,28 @@ class CheckIsbnHandler(BaseHandler):
                              'tag_name': tag_name})
         except:
             self.json_write({'success': 0, 'msg': 'failed to check isbn'})
+
+
+class AddUserHandler(BaseHandler):
+    @authenticated_api
+    def post(self):
+        user_json = json.loads(self.request.body)
+        success = 1
+        msg = ''
+        user_meta = {
+            'username': user_json.get('username', ''),
+            'name': user_json.get('name', ''),
+            'pwd': user_json.get('pwd', ''),
+            'phone': user_json.get('phone', ''),
+            'role': 'user'
+        }
+        user_exist = user_db.login_fetch_user(self.user_db, user_json.get('username', ''))
+        if len(user_meta['username']) == 0:
+            success = 0
+            msg = u'无效账户'
+        elif user_exist:
+            success = 0
+            msg = u'该账户已被使用'
+        else:
+            user_db.add_new_user(self.user_db, user_meta)
+        self.json_write({'success': success, 'msg': msg})

@@ -50,7 +50,6 @@ $('#input-file-btn').on('click', function () {
         'processData': false
     }).done(function (data) {
         if (data['success'] === 1) {
-            console.log('1111');
             $('.add-books-img').attr('src', data['msg']);
             $('#input-meta-btn').removeAttr('disabled');
         }else{
@@ -65,7 +64,6 @@ $('#isbn10').on('change', function () {
             'isbn': isbn
         }).done(function (data) {
             if (data['success'] === 1) {
-                console.log(data['book_name']);
                 $('#book-name').val(data['book_name']);
                 $('#author').val(data['author']);
                 $('#isbn10').val(data['ISBN10']);
@@ -132,4 +130,40 @@ $('#input-meta-btn').on('click', function () {
             alert('添加图书失败，失败信息：' + data['msg']);
         }
     })
+});
+//add-user
+$('#input-user-btn').on('click', function () {
+    var pwd_1 = $('#user-password').val();
+    var pwd_2 = $('#user-password-2').val();
+    if (pwd_1 === pwd_2) {
+        var data = {
+            'username': $('#user-username').val(),
+            'name': $('#user-name').val(),
+            'pwd': $.md5(pwd_1),
+            'phone': $('#user-phone').val()
+        };
+        data = JSON.stringify(data);
+        $.ajax('/api/add_user', {
+            'method': 'POST',
+            'contentType': 'application/json',
+            'data': data,
+            'dataType': 'json'
+        }).done(function (data) {
+            if (data['success'] === 1){
+                if (confirm(data['msg'] + '\n添加读者成功!')){
+                    $('#user-username').val('');
+                    $('#user-name').val('');
+                    $('#user-phone').val('');
+                    $('#user-password').val('');
+                    $('#user-password-2').val('');
+                }
+            }else{
+                alert('添加读者失败，失败信息：' + data['msg']);
+            }
+        })
+    } else {
+        alert('两次密码不相同，请重新输入');
+        $('#user-password').val('');
+        $('#user-password-2').val('');
+    }
 });

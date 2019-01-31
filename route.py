@@ -13,4 +13,5 @@ route_list = [
     (r'/api/uploadfile', main.UpLoadHandler),
     (r'/api/add_book', main.AddBookHandler),
     (r'/api/check_isbn', main.CheckIsbnHandler),
+    (r'/api/add_user', main.AddUserHandler),
 ]
