@@ -1,6 +1,5 @@
 $.sidebarMenu = function(menu) {
   var animationSpeed = 300;
-  
   $(menu).on('click', 'li a', function(e) {
     var $this = $(this);
     var checkElement = $this.next();
@@ -37,6 +36,8 @@ $.sidebarMenu = function(menu) {
     }
   });
 };
+
+//add-books
 $('#input-file-btn').on('click', function () {
     var fileObj = $(".img-input")[0].files[0];
     var form = new FormData();
@@ -48,21 +49,87 @@ $('#input-file-btn').on('click', function () {
         'data': form,
         'processData': false
     }).done(function (data) {
-        alert(data)
+        if (data['success'] === 1) {
+            console.log('1111');
+            $('.add-books-img').attr('src', data['msg']);
+            $('#input-meta-btn').removeAttr('disabled');
+        }else{
+            alert('操作失败，失败信息：' + data['msg']);
+        }
     });
 });
-//add-book
-// $(function () {
-//
-//         // $.ajax({
-//         //     type:'POST',
-//         //     url: '/api/uploadfile',
-//         //     data: form,
-//         //     processData: false,  // tell jQuery not to process the data
-//         //     contentType: false,  // tell jQuery not to set contentType
-//         //     success: function (data) {
-//         //         alert(data)
-//         //     }
-//         // }).done()
-//     // });
-// })();
+$('#isbn10').on('change', function () {
+    var isbn = $(this).val();
+    if (isbn.length === 10) {
+        $.getJSON('/api/check_isbn', {
+            'isbn': isbn
+        }).done(function (data) {
+            if (data['success'] === 1) {
+                console.log(data['book_name']);
+                $('#book-name').val(data['book_name']);
+                $('#author').val(data['author']);
+                $('#isbn10').val(data['ISBN10']);
+                $('#isbn13').val(data['ISBN13']);
+                $('#publish').val(data['publish']);
+                $('#tag-name').val(data['tag_name']);
+            }
+        });
+    }
+});
+$('#isbn13').on('change', function () {
+    var isbn = $(this).val();
+    if (isbn.length === 13) {
+        $.getJSON('/api/check_isbn', {
+            'isbn': isbn
+        }).done(function (data) {
+            if (data['success'] === 1) {
+                $('#book-name').val(data['book_name']);
+                $('#author').val(data['author']);
+                $('#isbn10').val(data['ISBN10']);
+                $('#isbn13').val(data['ISBN13']);
+                $('#publish').val(data['publish']);
+                $('#tag-name').val(data['tag_name']);
+            }
+        });
+    }
+});
+$('#input-meta-btn').on('click', function () {
+    var book_name = $('#book-name').val();
+    var author = $('#author').val();
+    var ISBN10 = $('#isbn10').val();
+    var ISBN13 = $('#isbn13').val();
+    var publish = $('#publish').val();
+    var tag_name = $('#tag-name').val();
+    var book_src = $('.add-books-img').attr('src');
+    var data = {
+        'book_name': book_name,
+        'author': author,
+        'ISBN10': ISBN10,
+        'ISBN13': ISBN13,
+        'publish': publish,
+        'tag_name': tag_name,
+        'book_src': book_src
+    };
+    data = JSON.stringify(data);
+    $.ajax('/api/add_book', {
+        'method': 'POST',
+        'contentType': 'application/json',
+        'data': data,
+        'dataType': 'json'
+    }).done(function (data) {
+        if (data['success'] === 1){
+            if (confirm(data['msg'] + '\n添加图书成功!')){
+                $('#book-name').val('');
+                $('#author').val('');
+                $('#isbn10').val('');
+                $('#isbn13').val('');
+                $('#publish').val('');
+                $('#tag-name').val('');
+                $('.add-books-img').attr('src', '');
+                $('#input-meta-btn').attr('disabled', 'disabled');
+            }
+        }else{
+            alert('添加图书失败，失败信息：' + data['msg']);
+        }
+    })
+});

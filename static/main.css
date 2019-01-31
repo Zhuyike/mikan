@@ -80,11 +80,27 @@
   font:normal 14px/24px 'MicroSoft YaHei';
 }
 .docker h1, .docker .content{
-  margin: 0 0 0 7%;
+    margin: 0 0 0 7%;
 }
 .docker {
-  display: none;
+    display: none;
 }
 #start {
-  display: block;
+    display: block;
+}
+img {
+    width: 100%;
+}
+.content {
+    padding: 15px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #b8c7ce;
+}
+.next {
+    padding: 15px;
+    border-style: solid;
+    border-width: 1px;
+    border-top: 0;
+    border-color: #b8c7ce;
 }

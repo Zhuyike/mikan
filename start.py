@@ -64,12 +64,15 @@ class RunMikan(Application):
                                     password=config_get('redis_password'))
         self.db = db_instance()
         self.redis = redis.Redis(connection_pool=pool)
+        if not os.path.exists(config_get('default_file')):
+            os.makedirs(config_get('default_file'))
         app_settings = {
             'db': self.db,
             'redis': self.redis,
             'debug': True if str(config_get('debug')) == '1' else False,
             'allow_plural_login': True if str(config_get('allow_plural_login')) == '1' else False,
-            'login_ttl': int(config_get('login_ttl'))
+            'login_ttl': int(config_get('login_ttl')),
+            'default_file': config_get('default_file'),
         }
         super(RunMikan, self).__init__(handlers=route.route_list,
                                        template_path=os.path.join(os.path.dirname(__file__), "templates"),

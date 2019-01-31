@@ -98,15 +98,56 @@
             <div class="page-header">
                 <h1>添加图书</h1>
             </div>
-            <div class="content">
-                <div class=".col-lg-4">
+            <div class="content row col-md-8">
+                <div class="col-md-4">
                     <form role="form" onsubmit="return false;">
                         <div class="form-group">
-                            <label for="inputfile">名称</label>
+                            <label for="inputfile">上传图书封面</label>
                             <input type="file" id="inputfile" class="img-input">
-                            <p class="help-block">这里是块级帮助文本的实例。</p>
+                            <p class="help-block">在提交封面之后才可上传图书的其他相关信息</p>
                         </div>
                         <button class="btn btn-default" id="input-file-btn">提交</button>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <img alt="此处会显示上传的图片" class="add-books-img">
+                </div>
+            </div>
+            <br>
+            <div class="content next row col-md-8">
+                <div class="col-md-6">
+                    <form role="form" onsubmit="return false;">
+                        <div class="input-group">
+                            <span class="input-group-addon">书名</span>
+                            <input type="text" class="form-control" id="book-name">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">作者</span>
+                            <input type="text" class="form-control" id="author">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">10位ISBN</span>
+                            <input type="text" class="form-control" id="isbn10">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">13位ISBN</span>
+                            <input type="text" class="form-control" id="isbn13">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">出版社</span>
+                            <input type="text" class="form-control" id="publish">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">类别与标签</span>
+                            <input type="text" class="form-control" id="tag-name">
+                        </div>
+                        <br>
+                        <button class="btn btn-default" id="input-meta-btn" disabled="disabled">提交</button>
                     </form>
                 </div>
             </div>
