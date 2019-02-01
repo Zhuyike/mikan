@@ -118,3 +118,26 @@ class AddUserHandler(BaseHandler):
         else:
             user_db.add_new_user(self.user_db, user_meta)
         self.json_write({'success': success, 'msg': msg})
+
+
+class FetchUsernameHandler(BaseHandler):
+    @authenticated
+    def get(self):
+        user_data = user_db.fetch_user_by_id(self.user_db, self.current_user)
+        if user_data:
+            self.json_write({'success': 1, 'username': user_data.get('username', '-')})
+        else:
+            self.json_write({'success': 0, 'msg': 'no such user_id'})
+
+
+class ChangePasswordHandler(BaseHandler):
+    @authenticated
+    def post(self):  # todo 修改读者用户密码
+        user_json = json.loads(self.request.body)
+        success = 1
+        msg = ''
+        user_data = user_db.login_fetch_user(self.user_db, user_json.get('username', ''))
+        user_meta = {
+            'username': user_json.get('username', ''),
+            '': '',
+        }

@@ -167,3 +167,42 @@ $('#input-user-btn').on('click', function () {
         $('#user-password-2').val('');
     }
 });
+//setting-user
+$.getJSON('/api/fetch_username', {}).done(function (data) {
+    if (data['success'] === 1){
+        $('#setting-username').val(data['username']);
+    }
+});
+$('#input-setting-btn').on('click', function () {
+    var pwd_1 = $('#setting-password').val();
+    var pwd_2 = $('#setting-password-2').val();
+    if (pwd_1 === pwd_2) {
+        var data = {
+            'username': $('#setting-username').val(),
+            're-pwd': $('#setting-re-password').val(),
+            'pwd': pwd_1
+        };
+        data = JSON.stringify(data);
+        $.ajax('/api/change_password', {
+            'method': 'POST',
+            'contentType': 'application/json',
+            'data': data,
+            'dataType': 'json'
+        }).done(function (data) {
+            if (data['success'] === 1){
+                if (confirm(data['msg'] + '\n修改密码成功!')){
+                    $('#setting-re-password').val('');
+                    $('#setting-password').val('');
+                    $('#setting-password-2').val('');
+                    $('#user-password-2').val('');
+                }
+            }else{
+                alert('添加读者失败，失败信息：' + data['msg']);
+            }
+        })
+    } else {
+        alert('两次密码不相同，请重新输入');
+        $('#user-password').val('');
+        $('#user-password-2').val('');
+    }
+});
