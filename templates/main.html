@@ -61,8 +61,8 @@
                         <i class="pull-right glyphicon glyphicon-chevron-left"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#" class="user-settings"><i class="glyphicon glyphicon-wrench"></i> 读者信息修改</a></li>
-                        <li><a href="#" class="modify-book"><i class="glyphicon glyphicon-compressed"></i> 图书修改</a></li>
+                        <li><a href="#" class="user-settings"><i class="glyphicon glyphicon-wrench"></i> 用户信息修改</a></li>
+                        <li><a href="#" class="modify-book"><i class="glyphicon glyphicon-compressed"></i> 图书修改与删除</a></li>
                         <li><a href="#" class="admin-settings"><i class="glyphicon glyphicon-tower"></i> 管理员设置</a></li>
                     </ul>
                 </li>
@@ -191,12 +191,12 @@
         </div>
         <div class="docker" id="user-settings">
             <div class="page-header">
-                <h1>读者信息修改</h1>
+                <h1>用户信息修改</h1>
             </div>
             <div class="content row col-md-8">
                 <div class="col-md-6">
                     <form role="form" onsubmit="return false;">
-                        <label>修改读者用户密码</label>
+                        <label>修改用户密码</label>
                         <br>
                         <div class="input-group">
                             <span class="input-group-addon">账户</span>
@@ -224,7 +224,78 @@
             </div>
         </div>
         <div class="docker" id="modify-book">
-            图书修改
+            <div class="page-header">
+                <h1>图书修改与删除</h1>
+            </div>
+            <div class="content row col-md-8">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">搜索图书</span>
+                        <input type="text" class="form-control" id="modify-search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="modify-input-search">搜索</button>
+                        </span>
+                    </div>
+                    <br>
+                    <p class="help-block">可使用任意一种ISBN编码来搜索图书，成功后会显示在下方。</p>
+                    <p class="help-block">选择上传图书封面之后点击修改会同时修改图书封面</p>
+                </div>
+            </div>
+            <div class="content next row col-md-8">
+                <div class="col-md-4">
+                    <form role="form" onsubmit="return false;">
+                        <div class="form-group">
+                            <label for="modify-inputfile">重新上传图书封面</label>
+                            <input type="file" id="modify-inputfile" class="img-modify">
+                            <p class="help-block">在提交封面之后才可上传图书的其他相关信息</p>
+                        </div>
+                        <button class="btn btn-default" id="modify-file-btn">提交</button>
+                    </form>
+                </div>
+                <div class="col-md-4">
+                    <img alt="此处会显示上传的图片" class="modify-books-img">
+                </div>
+            </div>
+            <br>
+            <div class="content next row col-md-8">
+                <div class="col-md-6">
+                    <form role="form" onsubmit="return false;">
+                        <div class="input-group">
+                            <span class="input-group-addon">书名</span>
+                            <input type="text" class="form-control" id="modify-book-name">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">作者</span>
+                            <input type="text" class="form-control" id="modify-author">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">10位ISBN</span>
+                            <input type="text" class="form-control" id="modify-isbn10">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">13位ISBN</span>
+                            <input type="text" class="form-control" id="modify-isbn13">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">出版社</span>
+                            <input type="text" class="form-control" id="modify-publish">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">类别与标签</span>
+                            <input type="text" class="form-control" id="modify-tag-name">
+                        </div>
+                        <input type="hidden" id="modify-id">
+                        <br>
+                        <button class="btn btn-default" id="modify-meta-btn" disabled="disabled">修改</button>
+                        <button class="btn btn-default pull-right" id="delete-book-btn" disabled="disabled">删除</button>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="docker" id="admin-settings">
             管理员设置

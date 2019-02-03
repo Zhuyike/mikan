@@ -16,3 +16,7 @@ def fetch_user_by_id(db, _id):
 
 def add_new_user(db, data):
     db.user.insert(data)
+
+
+def save_user(db, data):
+    db.user.save(data)

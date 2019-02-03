@@ -15,4 +15,8 @@ route_list = [
     (r'/api/check_isbn', main.CheckIsbnHandler),
     (r'/api/add_user', main.AddUserHandler),
     (r'/api/fetch_username', main.FetchUsernameHandler),
+    (r'/api/change_password', main.ChangePasswordHandler),
+    (r'/api/search_book', main.SearchBookHandler),
+    (r'/api/modify_book', main.ModifyBookHandler),
+    (r'/api/delete_book', main.DeleteBookHandler),
 ]

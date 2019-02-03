@@ -4,10 +4,10 @@
 from sample import BaseHandler
 from requests import HTTPError
 from worker.tool_common import get_md5
+from worker.tool_common import salt
 from model import user as user_db
 from bson import ObjectId
 import json
-salt = 'mikan_salt'
 
 
 class LoginHandler(BaseHandler):

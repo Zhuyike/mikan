@@ -179,8 +179,8 @@ $('#input-setting-btn').on('click', function () {
     if (pwd_1 === pwd_2) {
         var data = {
             'username': $('#setting-username').val(),
-            're-pwd': $('#setting-re-password').val(),
-            'pwd': pwd_1
+            'pwd': $.md5($('#setting-re-password').val()),
+            'new_pwd': $.md5(pwd_1)
         };
         data = JSON.stringify(data);
         $.ajax('/api/change_password', {
@@ -190,14 +190,14 @@ $('#input-setting-btn').on('click', function () {
             'dataType': 'json'
         }).done(function (data) {
             if (data['success'] === 1){
-                if (confirm(data['msg'] + '\n修改密码成功!')){
+                if (confirm(data['msg'] + '亲好\n修改密码成功!')){
                     $('#setting-re-password').val('');
                     $('#setting-password').val('');
                     $('#setting-password-2').val('');
                     $('#user-password-2').val('');
                 }
             }else{
-                alert('添加读者失败，失败信息：' + data['msg']);
+                alert('修改密码失败，失败信息：' + data['msg']);
             }
         })
     } else {
@@ -205,4 +205,105 @@ $('#input-setting-btn').on('click', function () {
         $('#user-password').val('');
         $('#user-password-2').val('');
     }
+});
+//modify-book
+$('#modify-input-search').on('click', function () {
+    var data = {
+        'isbn': $('#modify-search').val()
+    };
+    if (data['isbn'].length > 0) {
+        $.getJSON('/api/search_book', data).done(function (data) {
+            if (data['success'] === 1) {
+                $('.modify-books-img').attr('src', data['book_src']);
+                $('#modify-meta-btn').removeAttr('disabled');
+                $('#delete-book-btn').removeAttr('disabled');
+                $('#modify-book-name').val(data['book_name']);
+                $('#modify-author').val(data['author']);
+                $('#modify-isbn10').val(data['ISBN10']);
+                $('#modify-isbn13').val(data['ISBN13']);
+                $('#modify-publish').val(data['publish']);
+                $('#modify-tag-name').val(data['tag_name']);
+                $('#modify-id').val(data['_id']);
+            } else {
+                alert('搜索失败，失败信息：' + data['msg']);
+            }
+        })
+    }
+});
+$('#modify-meta-btn').on('click', function () {
+    var data = {
+        'book_src': $('.modify-books-img').attr('src'),
+        'ISBN10': $('#modify-isbn10').val(),
+        'ISBN13': $('#modify-isbn13').val(),
+        'author': $('#modify-author').val(),
+        'book_name': $('#modify-book-name').val(),
+        '_id': $('#modify-id').val(),
+        'tag_name': $('#modify-tag-name').val(),
+        'publish': $('#modify-publish').val()
+    };
+    console.log(data);
+    data = JSON.stringify(data);
+    $.ajax('/api/modify_book', {
+        'method': 'POST',
+        'contentType': 'application/json',
+        'data': data,
+        'dataType': 'json'
+    }).done(function (data) {
+        if (data['success'] === 1){
+            if (confirm(data['msg'] + '亲好\n修改图书信息成功!')){
+                $('.modify-books-img').attr('src', '');
+                $('#modify-meta-btn').attr('disabled', 'disabled');
+                $('#delete-book-btn').attr('disabled', 'disabled');
+                $('#modify-isbn10').val('');
+                $('#modify-isbn13').val('');
+                $('#modify-author').val('');
+                $('#modify-book-name').val('');
+                $('#modify-id').val('');
+                $('#modify-tag-name').val('');
+                $('#modify-publish').val('');
+            }
+        }else{
+            alert('修改图书信息失败，失败信息：' + data['msg']);
+        }
+    })
+});
+$('#modify-file-btn').on('click', function () {
+    var fileObj = $(".img-modify")[0].files[0];
+    var form = new FormData();
+    form.append("k1", "v1");
+    form.append("fff", fileObj);
+    $.ajax('/api/uploadfile', {
+        'method': 'POST',
+        'contentType': false,
+        'data': form,
+        'processData': false
+    }).done(function (data) {
+        if (data['success'] === 1) {
+            $('.modify-books-img').attr('src', data['msg']);
+        }else{
+            alert('操作失败，失败信息：' + data['msg']);
+        }
+    });
+});
+$('#delete-book-btn').on('click', function () {
+    $.getJSON('/api/delete_book', {
+        '_id': $('#modify-id').val()
+    }).done(function (data) {
+        if (data['success'] === 1) {
+            if (confirm(data['msg'] + '亲好\n删除图书成功!')) {
+                $('.modify-books-img').attr('src', '');
+                $('#modify-meta-btn').attr('disabled', 'disabled');
+                $('#delete-book-btn').attr('disabled', 'disabled');
+                $('#modify-isbn10').val('');
+                $('#modify-isbn13').val('');
+                $('#modify-author').val('');
+                $('#modify-book-name').val('');
+                $('#modify-id').val('');
+                $('#modify-tag-name').val('');
+                $('#modify-publish').val('');
+            }
+        } else {
+            alert('修改图书信息失败，失败信息：' + data['msg'])
+        }
+    })
 });
