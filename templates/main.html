@@ -74,7 +74,97 @@
             <h1>欢迎登录Mikan的图书馆小系统</h1>
         </div>
         <div class="docker" id="borrow-book">
-            借阅图书
+            <div class="page-header">
+                <h1>借阅图书</h1>
+            </div>
+            <div class="content row col-md-8">
+                <div class="col-md-6">
+                    <label for="inputfile">精确搜索</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">ISBN</span>
+                        <input type="text" class="form-control" id="borrow-search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="borrow-input-search">搜索</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="content next col-md-8">
+                <div class="col-md-4">
+                    <label for="inputfile">模糊搜索</label>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">书名</span>
+                        <input type="text" class="form-control" id="borrow-book-name">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">作者</span>
+                        <input type="text" class="form-control" id="borrow-author">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="inputfile">_</label>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">出版社</span>
+                        <input type="text" class="form-control" id="borrow-publish">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">类别与标签</span>
+                        <input type="text" class="form-control" id="borrow-tag-name">
+                    </div>
+                    <br>
+                    <button class="btn btn-default pull-right" id="borrow-vague-search">搜索</button>
+                </div>
+            </div>
+            <div class="content next col-md-8 book-list">
+                <label for="inputfile">搜索结果</label>
+                <table class="table table-responsive table-hover borrow">
+                    <thead>
+                        <tr>
+                            <th>书名</th>
+                            <th>作者</th>
+                            <th>出版社</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="borrow-book-tbody">
+                        <tr>
+                            <td>Tanmay</td>
+                            <td>Bangalore</td>
+                            <td>560001erfrvfrev ecvfer vfe efcv</td>
+                            <td>
+                                <button class="btn btn-default" id="borrow-btn">选中</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sachin</td>
+                            <td>Mumbai</td>
+                            <td>400003df fdv ferv fdr verfv erf f</td>
+                            <td>
+                                <button class="btn btn-default" id="borrow-btn">选中</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Uma</td>
+                            <td>Pune</td>
+                            <td>411027fe vfe vfd vef efv efrvefrs</td>
+                            <td>
+                                <button class="btn btn-default" id="borrow-btn">选中</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <ul class="pager">
+                    <li class="previous disabled"><a href="#">&larr; 上一页</a></li>
+                    <li class="next disabled"><a href="#">下一页 &rarr;</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="docker" id="borrow-book-after">
+            图书
         </div>
         <div class="docker" id="renew-book">
             续借图书
@@ -99,7 +189,7 @@
                 <h1>添加图书</h1>
             </div>
             <div class="content row col-md-8">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <form role="form" onsubmit="return false;">
                         <div class="form-group">
                             <label for="inputfile">上传图书封面</label>
@@ -109,11 +199,10 @@
                         <button class="btn btn-default" id="input-file-btn">提交</button>
                     </form>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <img alt="此处会显示上传的图片" class="add-books-img">
                 </div>
             </div>
-            <br>
             <div class="content next row col-md-8">
                 <div class="col-md-6">
                     <form role="form" onsubmit="return false;">
@@ -242,7 +331,7 @@
                 </div>
             </div>
             <div class="content next row col-md-8">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <form role="form" onsubmit="return false;">
                         <div class="form-group">
                             <label for="modify-inputfile">重新上传图书封面</label>
@@ -252,11 +341,10 @@
                         <button class="btn btn-default" id="modify-file-btn">提交</button>
                     </form>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <img alt="此处会显示上传的图片" class="modify-books-img">
                 </div>
             </div>
-            <br>
             <div class="content next row col-md-8">
                 <div class="col-md-6">
                     <form role="form" onsubmit="return false;">
@@ -298,12 +386,23 @@
             </div>
         </div>
         <div class="docker" id="admin-settings">
-            管理员设置
+            <div class="page-header">
+                <h1>管理员设置</h1>
+            </div>
+            <div class="content row col-md-8">
+                <div class="col-md-6">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" id="admin-clear">清理冗余图片</button>
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
     <script src="../static/jquery-3.3.1.min.js" type="text/javascript"></script>
     <script src="../static/jquery.md5.js" type="text/javascript"></script>
     <script src="../static/main.js"></script>
+    <script src="../static/borrow.js"></script>
     <script> $.sidebarMenu($('.sidebar-menu')) </script>
+    <script> $.</script>
 </body>
 </html>

@@ -36,3 +36,7 @@ def modify_book(db, book_data):
 
 def delete_book_by_id(db, _id):
     db.books.remove({'_id': ObjectId(_id)})
+
+
+def fetch_all_book(db):
+    return list(db.books.find({}))

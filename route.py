@@ -19,4 +19,5 @@ route_list = [
     (r'/api/search_book', main.SearchBookHandler),
     (r'/api/modify_book', main.ModifyBookHandler),
     (r'/api/delete_book', main.DeleteBookHandler),
+    (r'/api/clear_img', main.ClearImgHandler),
 ]

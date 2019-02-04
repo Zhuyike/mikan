@@ -11,6 +11,7 @@ from model import user as user_db
 import hashlib
 import requests
 import json
+import os
 
 
 class MainHandler(BaseHandler):
@@ -215,4 +216,26 @@ class DeleteBookHandler(BaseHandler):
             item_db.delete_book_by_id(self.item_db, _id)
             success = 1
             msg = ''
+        self.json_write({'success': success, 'msg': msg})
+
+
+class ClearImgHandler(BaseHandler):
+    @authenticated_api
+    def get(self):
+        success = 1
+        msg = ''
+        try:
+            books = item_db.fetch_all_book(self.item_db)
+            img = {book['book_src'].split('/')[-1] for book in books}
+            delete_img = list()
+            for root, dirs, files in os.walk(self.settings['default_file']):
+                for f in files:
+                    if f not in img:
+                        delete_img.append(f)
+                        print(f)
+            for f in delete_img:
+                os.remove(self.settings['default_file'] + '/' + f)
+        except:
+            success = 0
+            msg = u'BUG，出现此问题请联系开发'
         self.json_write({'success': success, 'msg': msg})

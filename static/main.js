@@ -307,3 +307,13 @@ $('#delete-book-btn').on('click', function () {
         }
     })
 });
+//admin-setting
+$('#admin-clear').on('click', function () {
+    $.getJSON('/api/clear_img', {}).done(function (data) {
+        if (data['success'] === 1) {
+            alert(data['msg'] + '亲好\n删除图书成功!');
+        } else {
+            alert('操作失败，失败信息：' + data['msg']);
+        }
+    })
+});
