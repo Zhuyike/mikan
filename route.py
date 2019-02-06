@@ -3,6 +3,7 @@
 from apps import sample
 from apps import login
 from apps import main
+from apps import borrow
 
 route_list = [
     (r'/demo', sample.DemoHandler),
@@ -20,4 +21,5 @@ route_list = [
     (r'/api/modify_book', main.ModifyBookHandler),
     (r'/api/delete_book', main.DeleteBookHandler),
     (r'/api/clear_img', main.ClearImgHandler),
+    (r'/api/search_vague', borrow.SearchVagueHandler),
 ]
