@@ -26,6 +26,8 @@ class SearchVagueHandler(BaseHandler):
         msg = ''
         try:
             for book in books:
+                if book['remain'] == 0:
+                    continue
                 tag_value = False
                 for tag in book['tag_name']:
                     if tag_name in tag:
@@ -33,6 +35,7 @@ class SearchVagueHandler(BaseHandler):
                 if book_name in book['book_name'] and author in book['author'] \
                         and publish in book['publish'] and tag_value:
                     book['_id'] = str(book['_id'])
+                    book['tag_name'] = ' '.join(book['tag_name'])
                     book_return.append(book)
         except:
             msg = u'BUG，出现此问题请联系开发'

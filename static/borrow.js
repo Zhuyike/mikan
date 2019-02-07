@@ -1,9 +1,15 @@
 //borrow-book
+var book_list = [];
+var book_dict = {};
+var page = 0;
+var page_max = 0;
+var page_len = 8;
 $('#borrow-input-search').on('click', function () {
     $.getJSON('/api/search_book', {
         'isbn': $('#borrow-search').val()
     }).done(function (data) {
-        if (data['success'] === 1) {
+        if ((data['success'] === 1) && (data['remain'] !== 0)){
+            book_dict[data['_id']] = data;
             var text =
                 '<tr><td>' + data['book_name'] +
                 '</td><td>' + data['author'] +
@@ -17,12 +23,17 @@ $('#borrow-input-search').on('click', function () {
     })
 });
 $('.borrow').on('click', 'tbody tr td button', function () {
-    alert($(this).val());
+    var book_info = book_dict[$(this).val()];
+    $('.docker').hide();
+    $('#borrow-book-info').show();
+    $('.info-books-img').attr('src', book_info['book_src']);
+    $('#info-book-name').val(book_info['book_name']);
+    $('#info-author').val(book_info['author']);
+    $('#info-publish').val(book_info['publish']);
+    $('#info-isbn10').val(book_info['ISBN10']);
+    $('#info-isbn13').val(book_info['ISBN13']);
+    $('#info-tag-name').val(book_info['tag_name']);
 });
-var book_list = [];
-var page = 0;
-var page_max = 0;
-var page_len = 8;
 $('#borrow-vague-search').on('click', function () {
     $.getJSON('/api/search_vague', {
         'book_name': $('#borrow-book-name').val(),
@@ -30,14 +41,18 @@ $('#borrow-vague-search').on('click', function () {
         'publish': $('#borrow-publish').val(),
         'tag_name': $('#borrow-tag-name').val()
     }).done(function (data) {
+        $('#previous-page').addClass('disabled');
         if (data['success'] === 1) {
             page = 0;
             var text = '';
             var i, len;
             book_list = data['data'];
+            for (i in book_list) {
+                book_dict[book_list[i]['_id']] = book_list[i]
+            }
             if (book_list.length >= page_len) {
                 len = page_len;
-                $('#next-page').removeClass('disabled')
+                $('#next-page').removeClass('disabled');
             } else {
                 len = book_list.length;
                 $('#next-page').addClass('disabled');
@@ -106,4 +121,8 @@ $('#next-page-a').on('click', function () {
         $('#previous-page').removeClass('disabled');
         $('#borrow-book-tbody').html(text);
     }
+});
+$('#info-back-btn').on('click', function() {
+    $('.docker').hide();
+    $('#borrow-book').show();
 });

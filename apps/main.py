@@ -44,6 +44,12 @@ class AddBookHandler(BaseHandler):
         book_json = json.loads(self.request.body)
         success = 1
         msg = ''
+        try:
+            remain = int(book_json.get('remain', '1'))
+        except:
+            success = 0
+            msg = u'库存不合法'
+            remain = 0
         book_meta = {
             'book_name': book_json.get('book_name', ''),
             'author': book_json.get('author', ''),
@@ -52,6 +58,7 @@ class AddBookHandler(BaseHandler):
             'publish': book_json.get('publish', ''),
             'tag_name': book_json.get('tag_name', '').split(' '),
             'book_src': book_json.get('book_src', ''),
+            'remain': remain,
         }
         if len(book_meta['book_name']) == 0:
             success = 0
@@ -63,7 +70,8 @@ class AddBookHandler(BaseHandler):
             isbn10_data = item_db.fetch_books_by_ISBN10(self.item_db, book_meta['ISBN10'])
             isbn13_data = item_db.fetch_books_by_ISBN13(self.item_db, book_meta['ISBN13'])
             if len(isbn10_data) == 0 and len(isbn13_data) == 0:
-                item_db.add_book(self.item_db, book_meta)
+                if success == 1:
+                    item_db.add_book(self.item_db, book_meta)
             else:
                 success = 0
                 msg = u'ISBN已存在'
@@ -173,6 +181,8 @@ class SearchBookHandler(BaseHandler):
                 book_data = dict()
                 success = 0
                 msg = u'未搜索到该书'
+            elif book_data['remain'] == 0:
+                msg = u'请注意库存为0'
         book_data['success'] = success
         book_data['msg'] = msg
         book_data['_id'] = str(book_data.get('_id', ''))
@@ -193,13 +203,20 @@ class ModifyBookHandler(BaseHandler):
         else:
             book_json['tag_name'] = book_json['tag_name'].split(' ')
             book_json['_id'] = ObjectId(book_json['_id'])
+            try:
+                remain = int(book_json['remain'])
+            except:
+                success = 0
+                msg = u'库存不合法'
+                remain = 0
+            book_json['remain'] = remain
             if len(book_json['ISBN10']) != 10:
                 success = 0
                 msg = u'10位ISBN长度不合法'
             elif len(book_json['ISBN13']) != 13:
                 success = 0
                 msg = u'13位ISBN长度不合法'
-            else:
+            elif success == 1:
                 item_db.modify_book(self.item_db, book_json)
         self.json_write({'success': success, 'msg': msg})
 

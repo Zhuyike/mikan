@@ -155,8 +155,49 @@
                 </ul>
             </div>
         </div>
-        <div class="docker" id="borrow-book-after">
-            图书
+        <div class="docker" id="borrow-book-info">
+            <div class="page-header">
+                <h1>借阅图书</h1>
+            </div>
+            <div class="content row col-md-8">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">书名</span>
+                        <input type="text" class="form-control" id="info-book-name" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">作者</span>
+                        <input type="text" class="form-control" id="info-author" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">10位ISBN</span>
+                        <input type="text" class="form-control" id="info-isbn10" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">13位ISBN</span>
+                        <input type="text" class="form-control" id="info-isbn13" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">出版社</span>
+                        <input type="text" class="form-control" id="info-publish" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">类别与标签</span>
+                        <input type="text" class="form-control" id="info-tag-name" disabled="disabled">
+                    </div>
+                    <br>
+                    <button class="btn btn-default" id="info-back-btn">返回</button>
+                    <button class="btn btn-default pull-right" id="info-confirm-btn">确认借阅</button>
+                </div>
+                <div class="col-md-6">
+                    <img alt="无显示请联系管理" class="info-books-img">
+                </div>
+            </div>
         </div>
         <div class="docker" id="renew-book">
             续借图书
@@ -226,6 +267,11 @@
                         <div class="input-group">
                             <span class="input-group-addon">类别与标签</span>
                             <input type="text" class="form-control" id="tag-name">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">库存</span>
+                            <input type="text" class="form-control" id="remain">
                         </div>
                         <br>
                         <button class="btn btn-default" id="input-meta-btn" disabled="disabled">提交</button>
@@ -338,8 +384,8 @@
                 </div>
             </div>
             <div class="content next row col-md-8">
-                <div class="col-md-6">
-                    <form role="form" onsubmit="return false;">
+                <form role="form" onsubmit="return false;">
+                    <div class="col-md-6">
                         <div class="input-group">
                             <span class="input-group-addon">书名</span>
                             <input type="text" class="form-control" id="modify-book-name">
@@ -348,16 +394,6 @@
                         <div class="input-group">
                             <span class="input-group-addon">作者</span>
                             <input type="text" class="form-control" id="modify-author">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">10位ISBN</span>
-                            <input type="text" class="form-control" id="modify-isbn10">
-                        </div>
-                        <br>
-                        <div class="input-group">
-                            <span class="input-group-addon">13位ISBN</span>
-                            <input type="text" class="form-control" id="modify-isbn13">
                         </div>
                         <br>
                         <div class="input-group">
@@ -371,10 +407,30 @@
                         </div>
                         <input type="hidden" id="modify-id">
                         <br>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-addon">10位ISBN</span>
+                            <input type="text" class="form-control" id="modify-isbn10">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">13位ISBN</span>
+                            <input type="text" class="form-control" id="modify-isbn13">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">库存</span>
+                            <input type="text" class="form-control" id="modify-remain">
+                        </div>
+                        <br>
+                    </div>
+                    <br>
+                    <div class="col-md-6">
                         <button class="btn btn-default" id="modify-meta-btn" disabled="disabled">修改</button>
                         <button class="btn btn-default pull-right" id="delete-book-btn" disabled="disabled">删除</button>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="docker" id="admin-settings">
@@ -395,6 +451,5 @@
     <script src="../static/main.js"></script>
     <script src="../static/borrow.js"></script>
     <script> $.sidebarMenu($('.sidebar-menu')) </script>
-    <script> $.</script>
 </body>
 </html>

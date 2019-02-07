@@ -99,6 +99,7 @@ $('#input-meta-btn').on('click', function () {
     var publish = $('#publish').val();
     var tag_name = $('#tag-name').val();
     var book_src = $('.add-books-img').attr('src');
+    var remain = $('#remain').val();
     var data = {
         'book_name': book_name,
         'author': author,
@@ -106,7 +107,8 @@ $('#input-meta-btn').on('click', function () {
         'ISBN13': ISBN13,
         'publish': publish,
         'tag_name': tag_name,
-        'book_src': book_src
+        'book_src': book_src,
+        'remain': remain
     };
     data = JSON.stringify(data);
     $.ajax('/api/add_book', {
@@ -124,6 +126,7 @@ $('#input-meta-btn').on('click', function () {
                 $('#publish').val('');
                 $('#tag-name').val('');
                 $('.add-books-img').attr('src', '');
+                $('#remain').val('');
                 $('#input-meta-btn').attr('disabled', 'disabled');
             }
         }else{
@@ -224,6 +227,7 @@ $('#modify-input-search').on('click', function () {
                 $('#modify-publish').val(data['publish']);
                 $('#modify-tag-name').val(data['tag_name']);
                 $('#modify-id').val(data['_id']);
+                $('#modify-remain').val(data['remain']);
             } else {
                 alert('搜索失败，失败信息：' + data['msg']);
             }
@@ -239,9 +243,9 @@ $('#modify-meta-btn').on('click', function () {
         'book_name': $('#modify-book-name').val(),
         '_id': $('#modify-id').val(),
         'tag_name': $('#modify-tag-name').val(),
-        'publish': $('#modify-publish').val()
+        'publish': $('#modify-publish').val(),
+        'remain': $('#modify-remain').val()
     };
-    console.log(data);
     data = JSON.stringify(data);
     $.ajax('/api/modify_book', {
         'method': 'POST',
@@ -261,6 +265,7 @@ $('#modify-meta-btn').on('click', function () {
                 $('#modify-id').val('');
                 $('#modify-tag-name').val('');
                 $('#modify-publish').val('');
+                $('#modify-remain').val('');
             }
         }else{
             alert('修改图书信息失败，失败信息：' + data['msg']);
@@ -301,6 +306,7 @@ $('#delete-book-btn').on('click', function () {
                 $('#modify-id').val('');
                 $('#modify-tag-name').val('');
                 $('#modify-publish').val('');
+                $('#modify-remain').val('');
             }
         } else {
             alert('修改图书信息失败，失败信息：' + data['msg'])
