@@ -21,7 +21,6 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="#" class="borrow-book"><i class="glyphicon glyphicon-cloud-download"></i> 借阅图书</a></li>
-                        <li><a href="#" class="renew-book"><i class="glyphicon glyphicon-time"></i> 续借图书</a></li>
                         <li><a href="#" class="return-book"><i class="glyphicon glyphicon-cloud-upload"></i> 归还图书</a></li>
                     </ul>
                 </li>
@@ -131,14 +130,6 @@
                         </tr>
                     </thead>
                     <tbody id="borrow-book-tbody">
-                        <tr>
-                            <td>Tanmay</td>
-                            <td>Bangalore</td>
-                            <td>560001erfrvfrev ecvfer vfe efcv</td>
-                            <td>
-                                <button class="btn btn-default" id="borrow-btn">选中</button>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
                 <ul class="pager">
@@ -191,6 +182,19 @@
                         <input type="text" class="form-control" id="info-tag-name" disabled="disabled">
                     </div>
                     <br>
+                    <label for="name">选择借阅时间</label>
+                    <div class="borrow_time">
+                        <label class="radio-inline">
+                            <input type="radio" name="borrow_time" id="one-week" value="1" checked> 一周
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="borrow_time" id="two-week"  value="2"> 两周
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="borrow_time" id="month"  value="3"> 一个月
+                        </label>
+                    </div>
+                    <br>
                     <button class="btn btn-default" id="info-back-btn">返回</button>
                     <button class="btn btn-default pull-right" id="info-confirm-btn">确认借阅</button>
                 </div>
@@ -199,11 +203,45 @@
                 </div>
             </div>
         </div>
-        <div class="docker" id="renew-book">
-            续借图书
-        </div>
         <div class="docker" id="return-book">
-            归还图书
+            <div class="page-header">
+                <h1>归还图书</h1>
+            </div>
+            <div class="content row col-md-8">
+                <div class="col-md-6">
+                    <label for="inputfile">搜索借阅记录</label>
+                    <br>
+                    <button class="btn btn-default" type="button" id="return-search">搜索</button>
+                </div>
+            </div>
+            <div class="content next col-md-8 record-list">
+                <label for="inputfile">搜索结果</label>
+                <table class="table table-responsive table-hover return">
+                    <thead>
+                        <tr>
+                            <th>书名</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="return-book-tbody">
+                    </tbody>
+                </table>
+                <ul class="pager">
+                    <li class="previous disabled" id="previous-page-return">
+                        <a href="#" id="previous-page-a-return">
+                            &larr; 上一页
+                        </a>
+                    </li>
+                    <li class="next disabled" id="next-page-return">
+                        <a href="#" id="next-page-a-return">
+                            下一页 &rarr;
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="docker" id="find-book">
             查找图书

@@ -22,4 +22,7 @@ route_list = [
     (r'/api/delete_book', main.DeleteBookHandler),
     (r'/api/clear_img', main.ClearImgHandler),
     (r'/api/search_vague', borrow.SearchVagueHandler),
+    (r'/api/borrow_book', borrow.BorrowBookHandler),
+    (r'/api/search_user_record', borrow.SearchUserRecordHandler),
+    (r'/api/check_return_code', borrow.CheckReturnCodeHandler),
 ]

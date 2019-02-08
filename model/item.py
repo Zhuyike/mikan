@@ -3,7 +3,6 @@
 
 import logging
 from bson import ObjectId
-from requests import HTTPError
 
 
 def fetch_books_by_ISBN10(db, ISBN10):
@@ -40,3 +39,7 @@ def delete_book_by_id(db, _id):
 
 def fetch_all_book(db):
     return list(db.books.find({}))
+
+
+def fetch_book_by_ids(db, ids):
+    return list(db.books.find({'$or': [{'_id': ObjectId(_id)} for _id in ids]}))

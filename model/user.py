@@ -3,7 +3,6 @@
 
 import logging
 from bson import ObjectId
-from requests import HTTPError
 
 
 def login_fetch_user(db, username):

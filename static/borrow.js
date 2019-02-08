@@ -4,6 +4,7 @@ var book_dict = {};
 var page = 0;
 var page_max = 0;
 var page_len = 8;
+var book_info;
 $('#borrow-input-search').on('click', function () {
     $.getJSON('/api/search_book', {
         'isbn': $('#borrow-search').val()
@@ -23,7 +24,7 @@ $('#borrow-input-search').on('click', function () {
     })
 });
 $('.borrow').on('click', 'tbody tr td button', function () {
-    var book_info = book_dict[$(this).val()];
+    book_info = book_dict[$(this).val()];
     $('.docker').hide();
     $('#borrow-book-info').show();
     $('.info-books-img').attr('src', book_info['book_src']);
@@ -126,3 +127,78 @@ $('#info-back-btn').on('click', function() {
     $('.docker').hide();
     $('#borrow-book').show();
 });
+$('#info-confirm-btn').on('click', function () {
+    $.getJSON('/api/borrow_book', {
+        '_id': book_info['_id'],
+        'time': $('.borrow_time input[name="borrow_time"]:checked ').val()
+    }).done(function (data) {
+        if (data['success'] === 1){
+            alert('操作成功：' + data['msg']);
+            $('.docker').hide();
+            $('#borrow-book').show();
+        } else {
+            alert('操作失败，失败信息：' + data['msg']);
+        }
+    })
+});
+//return
+var record_list = [];
+var record_dict = {};
+var page_record = 0;
+var record_max = 0;
+var record_len = 13;
+var record_info;
+$('#return-search').on('click', function () {
+    $.getJSON('/api/search_user_record', {}).done(function (data) {
+        $('#previous-page-return').addClass('disabled');
+        if (data['success'] === 1) {
+            page_record = 0;
+            var text = '';
+            var i, len;
+            record_list = data['data'];
+            for (i in record_list) {
+                record_dict[record_list[i]['_id']] = record_list[i]
+            }
+            if (record_list.length >= record_len) {
+                len = record_len;
+                $('#next-page-return').removeClass('disabled');
+            } else {
+                len = record_list.length;
+                $('#next-page-return').addClass('disabled');
+            }
+            for (i = 0; i < len; i++) {
+                text = text +
+                    '<tr><td>' + record_list[i]['book_name'] +
+                    '</td><td>' + record_list[i]['start_time'] +
+                    '</td><td>' + record_list[i]['end_time'] +
+                    '</td><td>' + record_list[i]['status'] +
+                    '</td><td><button class="btn btn-default" id="return-btn" value="' + record_list[i]['_id'];
+                if (record_list[i]['finish']) {
+                    text = text + '" disabled="disabled">选择归还</button></td></tr>';
+                } else {
+                    text = text + '">选择归还</button></td></tr>';
+                }
+            }
+            $('#return-book-tbody').html(text);
+            record_max = Math.ceil(record_list.length / record_len) - 1;
+        } else {
+            alert('操作失败，失败信息：' + data['msg']);
+        }
+    })
+});
+$('.return').on('click', 'tbody tr td button', function () {
+    var return_code = prompt("请输入归还码，可在归还图书之后从图书管理员处获取","请在这里输入归还码");
+    if (!(!return_code && typeof(return_code)!="undefined" && return_code != 0)){
+        $.getJSON('/api/check_return_code', {
+            'return_code': return_code,
+            'record_id': $(this).val()
+        }).done(function (data) {
+            if (data['success']) {
+                alert('归还成功')
+            } else {
+                alert('操作失败，失败信息：' + data['msg'])
+            }
+        });
+    }
+});
+//prompt("你今年多大了?","请在这里输入年龄")
