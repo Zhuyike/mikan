@@ -207,13 +207,7 @@
             <div class="page-header">
                 <h1>归还图书</h1>
             </div>
-            <div class="content row col-md-8">
-                <div class="col-md-6">
-                    <label for="inputfile">搜索借阅记录</label>
-                    <br>
-                    <button class="btn btn-default" type="button" id="return-search">搜索</button>
-                </div>
-            </div>
+
             <div class="content next col-md-8 record-list">
                 <label for="inputfile">搜索结果</label>
                 <table class="table table-responsive table-hover return">
@@ -244,16 +238,210 @@
             </div>
         </div>
         <div class="docker" id="find-book">
-            查找图书
+            <div class="page-header">
+                <h1>查找图书</h1>
+            </div>
+            <div class="content row col-md-8">
+                <div class="col-md-6">
+                    <label for="inputfile">搜索ISBN</label>
+                    <div class="input-group">
+                        <span class="input-group-addon">ISBN</span>
+                        <input type="text" class="form-control" id="find-search">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="find-input-search">搜索</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="content row col-md-8 next">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">书名</span>
+                        <input type="text" class="form-control" id="find-book-name" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">作者</span>
+                        <input type="text" class="form-control" id="find-author" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">10位ISBN</span>
+                        <input type="text" class="form-control" id="find-isbn10" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">13位ISBN</span>
+                        <input type="text" class="form-control" id="find-isbn13" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">出版社</span>
+                        <input type="text" class="form-control" id="find-publish" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">类别与标签</span>
+                        <input type="text" class="form-control" id="find-tag-name" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">目前库存</span>
+                        <input type="text" class="form-control" id="find-remain" disabled="disabled">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <img alt="无显示请联系管理" class="find-books-img">
+                </div>
+            </div>
         </div>
         <div class="docker" id="find-user">
-            查找读者
+            <div class="page-header">
+                <h1>查找读者</h1>
+            </div>
+            <div class="content row col-md-8">
+                <div class="col-md-6">
+                    <label for="inputfile">搜索(请输入账户或姓名)</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="find-user-input">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="find-user-btn">搜索</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="content row col-md-8 next">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">账户</span>
+                        <input type="text" class="form-control" id="find-username" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">姓名</span>
+                        <input type="text" class="form-control" id="find-name" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">手机</span>
+                        <input type="text" class="form-control" id="find-phone" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">角色</span>
+                        <input type="text" class="form-control" id="find-role" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">借阅次数</span>
+                        <input type="text" class="form-control" id="find-borrow-time" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">目前在借本数</span>
+                        <input type="text" class="form-control" id="find-borrow-number" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">目前在借书名</span>
+                        <input type="text" class="form-control" id="find-borrow-books" disabled="disabled">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">借阅状态</span>
+                        <input type="text" class="form-control" id="find-borrow-status" disabled="disabled">
+                    </div>
+                    <br>
+                    <button class="btn btn-default" id="find-reset-btn" disabled="disabled">重置密码</button>
+                    <button class="btn btn-default pull-right" id="find-delete-btn" disabled="disabled">注销账户</button>
+                </div>
+            </div>
         </div>
         <div class="docker" id="user-borrow-record">
-            读者借阅查询
+            <div class="page-header">
+                <h1>读者借阅查询</h1>
+            </div>
+            <div class="content row col-md-8">
+                <div class="col-md-6">
+                    <label for="inputfile">搜索(请输入账户或姓名)</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="user-record-input">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="user-record-btn">搜索</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="content row col-md-8 next">
+                <label for="inputfile">搜索结果</label>
+                <table class="table table-responsive table-hover return">
+                    <thead>
+                        <tr>
+                            <th>书名</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-borrow-tbody">
+                    </tbody>
+                </table>
+                <ul class="pager">
+                    <li class="previous disabled" id="previous-user-borrow">
+                        <a href="#" id="previous-user-borrow-a">
+                            &larr; 上一页
+                        </a>
+                    </li>
+                    <li class="next disabled" id="next-user-borrow">
+                        <a href="#" id="next-user-borrow-a">
+                            下一页 &rarr;
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="docker" id="book-borrow-record">
-            图书借阅查询
+            <div class="page-header">
+                <h1>图书借阅查询</h1>
+            </div>
+            <div class="content row col-md-8">
+                <div class="col-md-6">
+                    <label for="inputfile">搜索(请输入ISBN)</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="book-record-input">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="book-record-btn">搜索</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="content row col-md-8 next">
+                <label for="inputfile">搜索结果</label>
+                <table class="table table-responsive table-hover return">
+                    <thead>
+                        <tr>
+                            <th>借阅者账户名</th>
+                            <th>开始时间</th>
+                            <th>结束时间</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody id="book-borrow-tbody">
+                    </tbody>
+                </table>
+                <ul class="pager">
+                    <li class="previous disabled" id="previous-book-borrow">
+                        <a href="#" id="previous-book-borrow-a">
+                            &larr; 上一页
+                        </a>
+                    </li>
+                    <li class="next disabled" id="next-book-borrow">
+                        <a href="#" id="next-book-borrow-a">
+                            下一页 &rarr;
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="docker" id="add-book">
             <div class="page-header">
@@ -482,12 +670,24 @@
                     </span>
                 </div>
             </div>
+            <div class="content row col-md-8 next">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon">绑定图书ISBN</span>
+                        <input type="text" class="form-control" id="admin-isbn">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" id="admin-code">创建归还码</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src="../static/jquery-3.3.1.min.js" type="text/javascript"></script>
     <script src="../static/jquery.md5.js" type="text/javascript"></script>
-    <script src="../static/main.js"></script>
-    <script src="../static/borrow.js"></script>
+    <script src="../static/main.js" type="text/javascript"></script>
+    <script src="../static/borrow.js" type="text/javascript"></script>
+    <script src="../static/data_search.js" type="text/javascript"></script>
     <script> $.sidebarMenu($('.sidebar-menu')) </script>
 </body>
 </html>

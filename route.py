@@ -4,6 +4,7 @@ from apps import sample
 from apps import login
 from apps import main
 from apps import borrow
+from apps import data_search
 
 route_list = [
     (r'/demo', sample.DemoHandler),
@@ -25,4 +26,9 @@ route_list = [
     (r'/api/borrow_book', borrow.BorrowBookHandler),
     (r'/api/search_user_record', borrow.SearchUserRecordHandler),
     (r'/api/check_return_code', borrow.CheckReturnCodeHandler),
+    (r'/api/get_admin_code', borrow.GetAdminCodeHandler),
+    (r'/api/search_user_info', data_search.SearchUserInfoHandler),
+    (r'/api/reset_password', data_search.ResetPasswordHandler),
+    (r'/api/delete_account', data_search.DeleteAccountHandler),
+    (r'/api/search_book_record', data_search.SearchBookRecordHanlder),
 ]

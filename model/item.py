@@ -42,4 +42,7 @@ def fetch_all_book(db):
 
 
 def fetch_book_by_ids(db, ids):
-    return list(db.books.find({'$or': [{'_id': ObjectId(_id)} for _id in ids]}))
+    if len(ids) == 0:
+        return list()
+    else:
+        return list(db.books.find({'$or': [{'_id': ObjectId(_id)} for _id in ids]}))

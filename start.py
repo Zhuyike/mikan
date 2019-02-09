@@ -73,6 +73,7 @@ class RunMikan(Application):
             'allow_plural_login': True if str(config_get('allow_plural_login')) == '1' else False,
             'login_ttl': int(config_get('login_ttl')),
             'default_file': config_get('default_file'),
+            'borrow_max': config_get('borrow_max'),
         }
         super(RunMikan, self).__init__(handlers=route.route_list,
                                        template_path=os.path.join(os.path.dirname(__file__), "templates"),

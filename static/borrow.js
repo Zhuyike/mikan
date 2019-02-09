@@ -92,7 +92,7 @@ $('#previous-page-a').on('click', function () {
                 '">选中</button></td></tr>';
         }
         if (page === 0) {
-            $('#previous-page-page').addClass('disabled');
+            $('#previous-page').addClass('disabled');
         }
         $('#next-page').removeClass('disabled');
         $('#borrow-book-tbody').html(text);
@@ -117,7 +117,7 @@ $('#next-page-a').on('click', function () {
                 '">选中</button></td></tr>';
         }
         if (page === page_max) {
-            $('#next-page-page').addClass('disabled');
+            $('#next-page').addClass('disabled');
         }
         $('#previous-page').removeClass('disabled');
         $('#borrow-book-tbody').html(text);
@@ -147,7 +147,6 @@ var record_dict = {};
 var page_record = 0;
 var record_max = 0;
 var record_len = 13;
-var record_info;
 $('#return-search').on('click', function () {
     $.getJSON('/api/search_user_record', {}).done(function (data) {
         $('#previous-page-return').addClass('disabled');
@@ -188,17 +187,90 @@ $('#return-search').on('click', function () {
 });
 $('.return').on('click', 'tbody tr td button', function () {
     var return_code = prompt("请输入归还码，可在归还图书之后从图书管理员处获取","请在这里输入归还码");
+    var this_ = $(this);
     if (!(!return_code && typeof(return_code)!="undefined" && return_code != 0)){
         $.getJSON('/api/check_return_code', {
             'return_code': return_code,
-            'record_id': $(this).val()
+            'record_id': this_.val()
         }).done(function (data) {
             if (data['success']) {
-                alert('归还成功')
+                alert('归还成功');
+                this_.parent('td').prev('td').html('已归还')
             } else {
                 alert('操作失败，失败信息：' + data['msg'])
             }
         });
     }
+});
+$('#previous-page-a-return').on('click', function () {
+    if (page_record !== 0) {
+        page_record--;
+        var i, text = '';
+        var i_max;
+        if ((page_record + 1) * record_len > record_list.length) {
+            i_max = record_list.length
+        } else {
+            i_max = (page_record + 1) * record_len
+        }
+        for (i = page_record * record_len; i < i_max; i++) {
+            text = text +
+                '<tr><td>' + record_list[i]['book_name'] +
+                '</td><td>' + record_list[i]['start_time'] +
+                '</td><td>' + record_list[i]['end_time'] +
+                '</td><td id="return-status">' + record_list[i]['status'] +
+                '</td><td><button class="btn btn-default" id="return-btn" value="' + record_list[i]['_id'];
+            if (record_list[i]['finish']) {
+                text = text + '" disabled="disabled">选择归还</button></td></tr>';
+            } else {
+                text = text + '">选择归还</button></td></tr>';
+            }
+        }
+        if (page_record === 0) {
+            $('#previous-page-return').addClass('disabled');
+        }
+        $('#next-page-return').removeClass('disabled');
+        $('#return-book-tbody').html(text);
+    }
+});
+$('#next-page-a-return').on('click', function () {
+    if (page_record !== record_max) {
+        page_record++;
+        var i, text = '';
+        var i_max;
+        if ((page_record + 1) * record_len > record_list.length) {
+            i_max = record_list.length
+        } else {
+            i_max = (page_record + 1) * record_len
+        }
+        for (i = page_record * record_len; i < i_max; i++) {
+            text = text +
+                '<tr><td>' + record_list[i]['book_name'] +
+                '</td><td>' + record_list[i]['start_time'] +
+                '</td><td>' + record_list[i]['end_time'] +
+                '</td><td id="return-status">' + record_list[i]['status'] +
+                '</td><td><button class="btn btn-default" id="return-btn" value="' + record_list[i]['_id'];
+            if (record_list[i]['finish']) {
+                text = text + '" disabled="disabled">选择归还</button></td></tr>';
+            } else {
+                text = text + '">选择归还</button></td></tr>';
+            }
+        }
+        if (page_record === record_max) {
+            $('#next-page-return').addClass('disabled');
+        }
+        $('#previous-page-return').removeClass('disabled');
+        $('#return-book-tbody').html(text);
+    }
+});
+$('#admin-code').on('click', function () {
+    $.getJSON('/api/get_admin_code', {
+        'isbn': $('#admin-isbn').val()
+    }).done(function (data) {
+        if (data['success'] === 1) {
+            confirm('归还码为：' + data['msg'] + '\n10分钟内有效')
+        } else {
+            alert('操作失败，失败信息：' + data['msg'])
+        }
+    })
 });
 //prompt("你今年多大了?","请在这里输入年龄")
