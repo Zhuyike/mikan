@@ -86,4 +86,42 @@ class SearchBookRecordHanlder(BaseHandler):
     @authenticated_api
     def get(self):
         isbn = self.get_argument('isbn', '')
-        pass
+        record_list_return = list()
+        if len(isbn) != 10 and len(isbn) != 13:
+            success = 0
+            msg = u'ISBN长度不合法'
+        else:
+            if len(isbn) == 10:
+                book_data = item_db.fetch_book_by_ISBN10(self.item_db, isbn)
+            elif len(isbn) == 13:
+                book_data = item_db.fetch_book_by_ISBN13(self.item_db, isbn)
+            else:
+                book_data = None
+            if book_data:
+                book_id = str(book_data['_id'])
+                record_list = record_db.fetch_record_by_book_id(self.record_db, book_id)
+                user_list = [record['user_id'] for record in record_list]
+                user_data = user_db.fetch_user_by_ids(self.user_db, user_list)
+                user_dict = {str(user['_id']): user['name'] for user in user_data}
+                for record in record_list:
+                    if record['finish']:
+                        status = u'已归还'
+                    elif time.time() > record['end_time']:
+                        status = u'超时未还'
+                    else:
+                        status = u'正常借阅'
+                    record_temp = {
+                        'start_time': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(record['start_time'])),
+                        'end_time': time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(record['end_time'])),
+                        'name': user_dict[record['user_id']],
+                        'finish': record['finish'],
+                        '_id': str(record['_id']),
+                        'status': status,
+                    }
+                    record_list_return.append(record_temp)
+                success = 1
+                msg = u''
+            else:
+                success = 0
+                msg = u'无法查找到该书'
+        self.json_write({'success': success, 'msg': msg, 'data': record_list_return})

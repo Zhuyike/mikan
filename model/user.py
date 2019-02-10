@@ -13,6 +13,13 @@ def fetch_user_by_id(db, _id):
     return db.user.find_one({'_id': ObjectId(_id)})
 
 
+def fetch_user_by_ids(db, ids):
+    if len(ids) == 0:
+        return list()
+    else:
+        return list(db.user.find({'$or': [{'_id': ObjectId(_id)} for _id in ids]}))
+
+
 def fetch_user_by_name(db, name):
     return db.user.find_one({'name': name})
 

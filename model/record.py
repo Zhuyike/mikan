@@ -13,6 +13,10 @@ def fetch_record_by_user_id(db, user_id):
     return list(db.record.find({'user_id': user_id}))
 
 
+def fetch_record_by_book_id(db, book_id):
+    return list(db.record.find({'book_id': book_id}))
+
+
 def fetch_record_by_id(db, _id):
     return db.record.find_one({'_id': ObjectId(_id)})
 
