@@ -26,13 +26,23 @@ def db_instance():
     return dbs
 
 
+def klx_db_instance():
+    mongo_client = MongoClient(host=config_get('klx_mongo_host'), port=int(config_get('klx_mongo_port')))
+    dbs = dict()
+    dbs['analysis_control'] = mongo_client['analysis_control']
+    logging.info('Mikan: connect to klx_mongodb!')
+    return dbs
+
+
 class RunMikan(Application):
     def __init__(self, args):
         pool = redis.ConnectionPool(host=config_get('redis_host'),
                                     port=config_get('redis_port'),
                                     password=config_get('redis_password'))
         self.db = db_instance()
+        self.klx_mongodb = klx_db_instance()
         self.redis = redis.Redis(connection_pool=pool)
+        self.klx_redis = redis.StrictRedis.from_url(config_get('klx_redis_url'), db=config_get('klx_redis_db'), socket_timeout=5.0)
         if not os.path.exists(config_get('default_file')):
             os.makedirs(config_get('default_file'))
         app_settings = {
@@ -43,6 +53,8 @@ class RunMikan(Application):
             'login_ttl': int(config_get('login_ttl')),
             'default_file': config_get('default_file'),
             'borrow_max': config_get('borrow_max'),
+            'klx_mongodb': self.klx_mongodb,
+            'klx_redis': self.klx_redis,
         }
         super(RunMikan, self).__init__(handlers=route.route_list,
                                        template_path=os.path.join(os.path.dirname(__file__), "templates"),
