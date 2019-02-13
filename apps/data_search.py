@@ -59,6 +59,7 @@ class ResetPasswordHandler(BaseHandler):
             temp_pwd = str(ObjectId())[start:start + 6]
             user_data['pwd'] = get_md5(get_md5(temp_pwd) + salt)
             user_db.save_user(self.user_db, user_data)
+            self._logging('reset password(user_id)', str(user_data['_id']))
             success = 1
             msg = temp_pwd
         else:
@@ -74,6 +75,7 @@ class DeleteAccountHandler(BaseHandler):
         user_data = user_db.fetch_user_by_name(self.user_db, name)
         if user_data:
             user_db.delete_user_by_name(self.user_db, name)
+            self._logging('delete user(name or username)', name)
             success = 1
             msg = u''
         else:

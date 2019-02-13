@@ -107,3 +107,6 @@ div.next {
 .table>tbody>tr>td {
     vertical-align: middle;
 }
+.datetimepicker-dropdown-bottom-right {
+    margin-top: 56px;
+}

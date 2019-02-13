@@ -48,7 +48,7 @@ class SearchVagueHandler(BaseHandler):
 class BorrowBookHandler(BaseHandler):
     @authenticated
     def get(self):
-        current_user = self.get_current_user()
+        current_user = self.get_user_id()
         record_list = record_db.fetch_record_by_user_id(self.record_db, current_user)
         total_borrow = 0
         for record in record_list:
@@ -80,6 +80,7 @@ class BorrowBookHandler(BaseHandler):
                                    'book_id': _id,
                                    'finish': False}
                     record_db.add_record(self.record_db, record_data)
+                    self._logging('borrow book(book_id)', _id)
                 else:
                     success = 0
                     msg = u'该书库存不足'
@@ -95,7 +96,7 @@ class SearchUserRecordHandler(BaseHandler):
         record_list_return = list()
         user = self.get_argument('user', '')
         if user == '':
-            user = self.get_current_user()
+            user = self.get_user_id()
         else:
             user_data = user_db.login_fetch_user(self.user_db, user)
             if not user_data:
@@ -150,6 +151,7 @@ class GetAdminCodeHandler(BaseHandler):
                     if self.redis.get(session_key) is None:
                         break
                 self.redis.set(session_key, str(book_data['_id']), ex=self.settings['login_ttl'])
+                self._logging('publish admin code(book_id)', str(book_data['_id']))
                 success = 1
                 msg = session_key
             else:
@@ -174,6 +176,7 @@ class CheckReturnCodeHandler(BaseHandler):
                 record_db.modify_record(self.record_db, record_data)
                 success = 1
                 msg = u'归还成功'
+                self._logging('return book(record_id)', record_id)
             else:
                 success = 0
                 msg = u'无法查找到该书或该归还码错误，请联系管理员'

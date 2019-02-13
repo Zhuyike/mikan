@@ -7,6 +7,7 @@
     <title>Mikan的图书馆系统嘤嘤嘤~~~</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../static/main.css">
+    <link rel="stylesheet" href="../static/bootstrap-datetimepicker.min.css">
 </head>
 <body>
     <aside class="main-sidebar">
@@ -14,7 +15,7 @@
             <ul class="sidebar-menu">
                 <li class="header">Mikan ROOK</li>
                 <li class="treeview">
-                    <a href="#123">
+                    <a href="#">
                         <i class="glyphicon glyphicon-cloud"></i>
                         <span>借阅管理</span>
                         <i class="pull-right glyphicon glyphicon-chevron-left"></i>
@@ -41,6 +42,7 @@
                         <li><a href="#" class="find-user"><i class="glyphicon glyphicon-user"></i> 查找读者</a></li>
                         <li><a href="#" class="user-borrow-record"><i class="glyphicon glyphicon-list-alt"></i> 读者借阅查询</a></li>
                         <li><a href="#" class="book-borrow-record"><i class="glyphicon glyphicon-list"></i> 图书借阅查询</a></li>
+                        <li><a href="#" class="logging"><i class="glyphicon glyphicon-calendar"></i> 日志查询</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -182,7 +184,7 @@
                         <input type="text" class="form-control" id="info-tag-name" disabled="disabled">
                     </div>
                     <br>
-                    <label for="name">选择借阅时间</label>
+                    <label>选择借阅时间</label>
                     <div class="borrow_time">
                         <label class="radio-inline">
                             <input type="radio" name="borrow_time" id="one-week" value="1" checked> 一周
@@ -682,12 +684,93 @@
                 </div>
             </div>
         </div>
+        <div class="docker" id="logging">
+            <div class="page-header">
+                <h1>日志查询</h1>
+            </div>
+            <div class="content row col-md-8">
+                <div class="col-md-4">
+                    <label for="inputfile">模糊搜索</label>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">操作者</span>
+                        <input type="text" class="form-control" id="logging-user">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">操作项</span>
+                        <input type="text" class="form-control" id="logging-operation">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">对象</span>
+                        <input type="text" class="form-control" id="logging-target">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="inputfile">_</label>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">开始时间</span>
+                        <input class="form-control" type="text"  id="logging-start-time">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">结束时间</span>
+                        <input class="form-control" type="text"  id="logging-end-time">
+                    </div>
+                    <br>
+                    <button class="btn btn-default pull-right" id="logging-btn">搜索</button>
+                </div>
+            </div>
+            <div class="content row col-md-8 next">
+                <label for="inputfile">搜索结果</label>
+                <table class="table table-responsive table-hover return">
+                    <thead>
+                        <tr>
+                            <th>操作者</th>
+                            <th>操作项</th>
+                            <th>对象</th>
+                            <th>时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logging-tbody">
+                    </tbody>
+                </table>
+                <ul class="pager">
+                    <li class="previous disabled" id="previous-logging">
+                        <a href="#" id="previous-logging-a">
+                            &larr; 上一页
+                        </a>
+                    </li>
+                    <li class="next disabled" id="next-logging">
+                        <a href="#" id="next-logging-a">
+                            下一页 &rarr;
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <script src="../static/jquery-3.3.1.min.js" type="text/javascript"></script>
     <script src="../static/jquery.md5.js" type="text/javascript"></script>
+    <script src="../static/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../static/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+    <script src="../static/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
     <script src="../static/main.js" type="text/javascript"></script>
     <script src="../static/borrow.js" type="text/javascript"></script>
     <script src="../static/data_search.js" type="text/javascript"></script>
+    <script src="../static/logging.js" type="text/javascript"></script>
     <script> $.sidebarMenu($('.sidebar-menu')) </script>
+    <script type="text/javascript">
+        $('#logging-start-time').datetimepicker({
+            language:  'zh-CN',
+            autoclose: 1
+        });
+        $('#logging-end-time').datetimepicker({
+            language:  'zh-CN',
+            autoclose: 1
+        });
+    </script>
 </body>
 </html>

@@ -20,6 +20,7 @@ class MainHandler(BaseHandler):
         if self.role == '':
             self.get_current_user()
         if self.role == 'admin':
+            self._logging('login', '')
             self.render('main.html', default_img_src=self.settings['default_file'])
         else:
             self.render('main_user.html')
@@ -72,6 +73,7 @@ class AddBookHandler(BaseHandler):
             if len(isbn10_data) == 0 and len(isbn13_data) == 0:
                 if success == 1:
                     item_db.add_book(self.item_db, book_meta)
+                    self._logging('add book(isbn10)', book_meta['ISBN10'])
             else:
                 success = 0
                 msg = u'ISBN已存在'
@@ -126,6 +128,7 @@ class AddUserHandler(BaseHandler):
             msg = u'该账户已被使用'
         else:
             user_db.add_new_user(self.user_db, user_meta)
+            self._logging('add user(username)', user_meta['username'])
         self.json_write({'success': success, 'msg': msg})
 
 
@@ -157,6 +160,7 @@ class ChangePasswordHandler(BaseHandler):
             else:
                 user_data['pwd'] = get_md5(user_json.get('new_pwd', '')+salt)
                 user_db.save_user(self.user_db, user_data)
+                self._logging('change password', '')
                 msg = user_data['name']
         self.json_write({'success': success, 'msg': msg})
 
@@ -218,6 +222,7 @@ class ModifyBookHandler(BaseHandler):
                 msg = u'13位ISBN长度不合法'
             elif success == 1:
                 item_db.modify_book(self.item_db, book_json)
+                self._logging('modify book(book_id)', str(book_json['_id']))
         self.json_write({'success': success, 'msg': msg})
 
 
@@ -231,6 +236,7 @@ class DeleteBookHandler(BaseHandler):
             msg = u'id错误，出现此问题请联系开发'
         else:
             item_db.delete_book_by_id(self.item_db, _id)
+            self._logging('delete book', book_data['book_name'])
             success = 1
             msg = ''
         self.json_write({'success': success, 'msg': msg})

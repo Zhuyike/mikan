@@ -5,6 +5,7 @@ from apps import login
 from apps import main
 from apps import borrow
 from apps import data_search
+from apps import log
 
 route_list = [
     (r'/demo', sample.DemoHandler),
@@ -31,4 +32,5 @@ route_list = [
     (r'/api/reset_password', data_search.ResetPasswordHandler),
     (r'/api/delete_account', data_search.DeleteAccountHandler),
     (r'/api/search_book_record', data_search.SearchBookRecordHanlder),
+    (r'/api/fetch_logging', log.fetch_logging),
 ]
