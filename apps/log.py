@@ -2,16 +2,10 @@
 # encoding: utf-8
 
 from sample import BaseHandler
-from requests import HTTPError
 from tornado.web import authenticated
 from worker.tool_common import *
 from model import log as log_db
-from bson import ObjectId
-import hashlib
-import requests
-import json
 import time
-import os
 
 
 class fetch_logging(BaseHandler):
@@ -34,5 +28,6 @@ class fetch_logging(BaseHandler):
             if not (target in logging['target']):
                 continue
             logging['_id'] = str(logging['_id'])
+            logging['time'] = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(logging['time']))
             logging_return.append(logging)
         self.json_write({'success': 1, 'msg': '', 'data': logging_return})
